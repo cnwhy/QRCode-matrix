@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="https://unpkg.com/jquery@3.2.1/dist/jquery.js"></script>
+	<script src="show.js"></script>
+	<style>
+		.QRcode {
+			font-size: 0;
+			/* line-height: 2px; */
+			padding:10px;
+		}
+		.QRcode>div{
+			float: left;
+			margin: 5px;
+			border:1px solid #EEE;
+		}
+		.QRcode b,.QRcode i{
+			display: inline-block;
+			width:5px;
+			height:5px;
+			/* vertical-align:top; */
+			background:#000;
+		}
+		.QRcode i{
+			background: #FFF;
+		}
+		button {
+			font-size: 30px;
+			vertical-align: top;
+		}
+	</style>
+</head>
+<body>
+	<textarea rows="5" cols="100" id="arr"></textarea>
+	<button onclick="show()">show</button>
+	<button onclick="add()">add</button>
+	<div id="QRcode" class="QRcode"></div>
+	<script>
+		var box = document.getElementById('QRcode');
+		var indata = document.getElementById('arr');
+		function gethtml(data){
+			var html = '<div>';
+			for (let i = 0; i < data.length; i++) {
+				var tr = data[i];
+				for (let k = 0; k < tr.length; k++) {
+					td = tr[k];
+					html += td ? '<b></b>' : '<i></i>';
+				}
+				html += '<br>';
+			}
+			html += '</div>';
+			return html;
+		}
+		function show(){
+			var data = JSON.parse(indata.value);
+			box.innerHTML = gethtml(data);
+		}
+		function add(){
+			var data = JSON.parse(indata.value);
+			box.innerHTML += gethtml(data);
+		}
+	</script>
+
+	<div>
+		<select id="typeNumber">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+			<option value="32">32</option>
+			<option value="33">33</option>
+			<option value="34">34</option>
+			<option value="35">35</option>
+			<option value="36">36</option>
+			<option value="37">37</option>
+			<option value="38">38</option>
+			<option value="39">39</option>
+			<option value="40">40</option>
+		</select>
+		<select id="errorCorrectionLevel">
+			<option value="1">L</option>
+			<option value="0">M</option>
+			<option value="3">Q</option>
+			<option value="2">H</option>
+		</select>
+		<button id="testReset">重置</button>
+		<input type="button" id="a1" value="侦测图">
+		<input type="button" id="a2" value="校正图">
+		<input type="button" id="a3" value="定位图">
+		<input type="button" id="a4" value="格式信息">
+		<input type="button" id="a5" value="版本信息">
+		<div id="testBox" class="QRcode">
+		</div>
+	</div>
+
+	
+</body>
+</html>
