@@ -158,7 +158,9 @@ new Vue({
 		outCode: function(val){
 			this.$nextTick(()=>{
 				// this.$refs.outBox.appendChild(getSVG(this.outCode));
-				this.$refs.outBox.appendChild(getCanvas(this.outCode));
+				this.$refs.outBox.innerHTML += gethtml(this.outCode);
+				this.$refs.outBox1.appendChild(getSVG(this.outCode));
+				this.$refs.outBox2.appendChild(getCanvas(this.outCode));
 			})
 		}
 	}

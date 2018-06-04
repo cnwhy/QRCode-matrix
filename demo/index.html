@@ -12,6 +12,7 @@
 			font-size: 0;
 			/* line-height: 2px; */
 			padding: 10px;
+			clear: both;
 		}
 		.QRcode>svg {
 			width:200px;
@@ -134,6 +135,8 @@
 		<p><textarea name="input" id="input" cols="50" rows="10" v-model.lazy="input"></textarea></p>
 		<p><button v-on:click="getQRCode">updated</button></p>
 		<div ref="outBox" class="QRcode" id="outBox"></div>
+		<div ref="outBox1" class="QRcode" id="outBox"></div>
+		<div ref="outBox2" class="QRcode" id="outBox"></div>
 	</div>
 	<script src="./index.js"></script>
 </body>
