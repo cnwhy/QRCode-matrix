@@ -1,72 +1,74 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
 	<script src="https://unpkg.com/jquery@3.2.1/dist/jquery.js"></script>
+	<script src="https://unpkg.com/d3"></script>
+	<script src="https://unpkg.com/svg.js"></script>
 	<script src="show.js"></script>
 	<style>
 		.QRcode {
 			font-size: 0;
 			/* line-height: 2px; */
-			padding:10px;
+			padding: 10px;
 		}
-		.QRcode>div{
+
+		.QRcode>div {
 			float: left;
 			margin: 5px;
-			border:1px solid #EEE;
+			border: 1px solid #EEE;
 		}
-		.QRcode b,.QRcode i{
+
+		.QRcode b,
+		.QRcode i {
 			display: inline-block;
-			width:5px;
-			height:5px;
+			width: 5px;
+			height: 5px;
 			/* vertical-align:top; */
-			background:#000;
+			background: #000;
 		}
-		.QRcode i{
+
+		.QRcode .s b,
+		.QRcode .s i {
+			width: 4px;
+			height: 4px;
+		}
+
+		.QRcode .xs b,
+		.QRcode .xs i {
+			width: 3px;
+			height: 3px;
+		}
+
+		.QRcode .xxs b,
+		.QRcode .xxs i {
+			width: 2px;
+			height: 2px;
+		}
+
+		.QRcode i {
 			background: #FFF;
 		}
+
 		button {
 			font-size: 30px;
 			vertical-align: top;
 		}
 	</style>
 </head>
+
 <body>
-	<textarea rows="5" cols="100" id="arr"></textarea>
-	<button onclick="show()">show</button>
-	<button onclick="add()">add</button>
+
 	<div id="QRcode" class="QRcode"></div>
-	<script>
-		var box = document.getElementById('QRcode');
-		var indata = document.getElementById('arr');
-		function gethtml(data){
-			var html = '<div>';
-			for (let i = 0; i < data.length; i++) {
-				var tr = data[i];
-				for (let k = 0; k < tr.length; k++) {
-					td = tr[k];
-					html += td ? '<b></b>' : '<i></i>';
-				}
-				html += '<br>';
-			}
-			html += '</div>';
-			return html;
-		}
-		function show(){
-			var data = JSON.parse(indata.value);
-			box.innerHTML = gethtml(data);
-		}
-		function add(){
-			var data = JSON.parse(indata.value);
-			box.innerHTML += gethtml(data);
-		}
-	</script>
+
 
 	<div>
+		<textarea rows="5" cols="100" id="qrdata"></textarea>
+		<br>
 		<select id="typeNumber">
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -115,16 +117,73 @@
 			<option value="3">Q</option>
 			<option value="2">H</option>
 		</select>
-		<button id="testReset">重置</button>
+		<input type="button" id="testReset" value="Reset">
 		<input type="button" id="a1" value="侦测图">
 		<input type="button" id="a2" value="校正图">
 		<input type="button" id="a3" value="定位图">
 		<input type="button" id="a4" value="格式信息">
 		<input type="button" id="a5" value="版本信息">
-		<div id="testBox" class="QRcode">
+		<!-- <input type="button" id="a6" value="数据"> -->
+		<div id="testBox" class="QRcode" style="min-height:200px;">
 		</div>
+		<div style="clear:both"></div>
 	</div>
 
-	
+	<div>
+		<textarea rows="5" cols="100" id="arr"></textarea>
+		<button onclick="show()">show</button>
+		<button onclick="add()">add</button>
+		<script>
+			var box = document.getElementById('QRcode');
+			var indata = document.getElementById('arr');
+			function gethtml(data) {
+				var x = data.length / 50 >> 0;
+				var c = x ? "s" : "";
+				c = c.padStart(Math.min(x, 3), "x");
+				var html = '<div class="' + c + '">';
+				for (let i = 0; i < data.length; i++) {
+					var tr = data[i];
+					for (let k = 0; k < tr.length; k++) {
+						td = tr[k];
+						html += td ? '<b></b>' : '<i></i>';
+					}
+					html += '<br>';
+				}
+				html += '</div>';
+				return html;
+			}
+			function show() {
+				var data = JSON.parse(indata.value);
+				box.innerHTML = gethtml(data);
+			}
+			function add() {
+				var data = JSON.parse(indata.value);
+				box.innerHTML += gethtml(data);
+			}
+		</script>
+	</div>
+
+	<div>
+		<img src="./method-draw-image.svg" alt="" srcset="" width="300" style="border:1px solid #DDD;">
+		<svg  width="580" height="400" style="border:1px solid #DDD; width:300px;" xmlns="http://www.w3.org/2000/svg">
+			<g>
+				<title>background</title>
+				<rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1" />
+				<g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+					<rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" />
+				</g>
+			</g>
+			<g>
+				<title>Layer 1</title>
+				<rect id="svg_4" height="38" width="25" y="50" x="220.5" stroke-width="1.5" stroke="#000" fill="#fff" />
+				<rect id="svg_5" height="37" width="39" y="17" x="75.5" stroke-width="1.5" stroke="#000" fill="#fff" />
+				<rect id="svg_6" height="15" width="16" y="22" x="162.5" stroke-width="1.5" stroke="#000" fill="#fff" />
+				<rect id="svg_7" height="29" width="25" y="81" x="29.5" stroke-width="1.5" stroke="#000" fill="#fff" />
+				<rect id="svg_8" height="43" width="38" y="69" x="152.5" stroke-width="1.5" stroke="#000" fill="#fff" />
+			</g>
+		</svg>
+	</div>
+
 </body>
+
 </html>

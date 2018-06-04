@@ -25,12 +25,11 @@ var qrAlphaNum = function () {
 	};
 
 	return function (data) {
-		var _mode = QR_MODE;
 		var _data = data;
 		var _this = {};
 
 		_this.getMode = function () {
-			return _mode;
+			return QR_MODE;
 		};
 
 		_this.getLength = function (buffer) {
@@ -41,9 +40,7 @@ var qrAlphaNum = function () {
 			var s = _data;
 			var i = 0;
 			while (i + 1 < s.length) {
-				buffer.put(
-					getCode(s.charAt(i)) * 45 +
-					getCode(s.charAt(i + 1)), 11);
+				buffer.put(getCode(s.charAt(i)) * 45 + getCode(s.charAt(i + 1)), 11);
 				i += 2;
 			}
 			if (i < s.length) {

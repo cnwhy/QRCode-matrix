@@ -1,4 +1,5 @@
 var utils = require('../src/utils.js');
+var QR = require('../');
 $(function(){
 	var testArr = [];
 	var testBox = $("#testBox"),
@@ -7,8 +8,7 @@ $(function(){
 
 	var getTN = function(){return +tn.val()};
 	var getECL = function(){return +ecl.val()}
-
-
+	
 	function showArr(){
 		testBox.html(gethtml(testArr))
 	}
@@ -39,4 +39,13 @@ $(function(){
 			showArr();
 		}
 	})
+	$("#a6").click(function(){
+
+	})
+	
+	var op = {
+		errorCorrectionLevel:QR.QRErrorCorrectionLevel.H,
+		typeNumber:7
+	}
+
 })

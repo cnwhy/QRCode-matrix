@@ -13,11 +13,10 @@ var qrNumber = function () {
 	};
 
 	return function (data) {
-		var _mode = QR_MODE;
 		var _data = data;
 		var _this = {};
 		_this.getMode = function () {
-			return _mode;
+			return QR_MODE;
 		};
 		_this.getLength = function (buffer) {
 			return _data.length;

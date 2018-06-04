@@ -23,7 +23,7 @@ var QRMaskPattern = {
 	PATTERN111: 7
 };
 
-// 获取掩码函数
+// 获取掩模函数
 var getQRMaskFunction = (function () {
 	var QRMaskFunctions = [
 		function (i, j) {
@@ -80,6 +80,11 @@ var getLengthInBits = (function () {
 		}
 	}
 }());
+
+// 通过矩阵获取,版本
+var map2typeNumber = function(map){
+	return (map.length - 17) / 4;
+}
 
 var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
 var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
@@ -225,7 +230,7 @@ var setupPositionAdjustPattern = (function () {
 		[6, 30, 58, 86, 114, 142, 170]
 	];
 	return function (map, typeNumber) {
-		var typeNumber = typeNumber | (map.length - 17) / 4;
+		typeNumber = typeNumber || map2typeNumber(map);
 		var pos = PATTERN_POSITION_TABLE[typeNumber - 1];
 		for (var i = 0; i < pos.length; i++) {
 			for (var j = 0; j < pos.length; j++) {
@@ -298,7 +303,8 @@ var setupTypeInfo = function (map, test, errorCorrectionLevel, maskPattern) {
 };
 
 // 填充版本信息
-var setupTypeNumber = function (map,test,typeNumber) {
+var setupTypeNumber = function (map, test, typeNumber) {
+	typeNumber = typeNumber || map2typeNumber(map);
 	var mapLength = map.length;
 	var bits = getBCHTypeNumber(typeNumber);
 	for (var i = 0; i < 18; i += 1) {
@@ -313,7 +319,6 @@ var setupTypeNumber = function (map,test,typeNumber) {
 
 // 生成空矩阵
 function mapInit(size) {
-	//var size = typeNumber * 4 + 17;
 	var map = [],
 		emptyArr = [];
 	emptyArr.length = size;
@@ -620,7 +625,7 @@ var getRSBlocks = (function () {
 	};
 }());
 
-// 矩阵分布评分
+// 矩阵分布评分 (筛选最优掩模方案)
 var getLostPoint = function (map) {
 	var moduleCount = map.length;
 	var lostPoint = 0;
@@ -979,39 +984,27 @@ var mapData = function (map, data, maskPattern) {
 	var maskFunc = getQRMaskFunction(maskPattern);
 
 	for (var col = _moduleCount - 1; col > 0; col -= 2) {
-
 		if (col == 6) col -= 1;
-
 		while (true) {
-
 			for (var c = 0; c < 2; c += 1) {
-
 				if (map[row][col - c] == null) {
-
 					var dark = false;
-
 					if (byteIndex < data.length) {
 						dark = (((data[byteIndex] >>> bitIndex) & 1) == 1);
 					}
-
 					var mask = maskFunc(row, col - c);
-
 					if (mask) {
 						dark = !dark;
 					}
-
 					map[row][col - c] = dark;
 					bitIndex -= 1;
-
 					if (bitIndex == -1) {
 						byteIndex += 1;
 						bitIndex = 7;
 					}
 				}
 			}
-
 			row += inc;
-
 			if (row < 0 || _moduleCount <= row) {
 				row -= inc;
 				inc = -inc;
@@ -1024,7 +1017,7 @@ var mapData = function (map, data, maskPattern) {
 };
 
 module.exports = {
-	QRMode: QRMode,
+	// QRMode: QRMode,
 	QRErrorCorrectionLevel: QRErrorCorrectionLevel,
 	QRMaskPattern: QRMaskPattern,
 	qrBitBuffer: qrBitBuffer,

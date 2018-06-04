@@ -1,16 +1,14 @@
 var QR_MODE = 1 << 2;
 var qr8BitByte = (function (stringToBytes) {
-	stringToBytes = typeof stringToBytes == 'function' ? stringToBytes : require('../ecode/utf-8');
+	stringToBytes = typeof stringToBytes == 'function' ? stringToBytes : require('../encode/utf-8');
 	return function (data) {
-
-		var _mode = QR_MODE;
 		var _data = data + '';
-		var _bytes = stringToBytes(_data);
-
+		var _bytes = _data == data ? stringToBytes(_data) : data;
 		var _this = {};
-
+		_bytes = _bytes instanceof Array ? _bytes : [];
+		
 		_this.getMode = function () {
-			return _mode;
+			return QR_MODE;
 		};
 
 		_this.getLength = function (buffer) {

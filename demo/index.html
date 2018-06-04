@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="//unpkg.com/vue/dist/vue.js"></script>
+	<title>QRCode Demo</title>
+	<style>
+		p {margin:0 0 .5em 0;}
+		.QRcode {
+			font-size: 0;
+			/* line-height: 2px; */
+			padding: 10px;
+		}
+		.QRcode>svg {
+			width:200px;
+			margin: 10px;
+		}
+		.QRcode>div {
+			float: left;
+			margin: 5px;
+			border: 1px solid #EEE;
+		}
+
+		.QRcode b,
+		.QRcode i {
+			display: inline-block;
+			width: 5px;
+			height: 5px;
+			/* vertical-align:top; */
+			background: #000;
+		}
+
+		.QRcode .s b,
+		.QRcode .s i {
+			width: 4px;
+			height: 4px;
+		}
+
+		.QRcode .xs b,
+		.QRcode .xs i {
+			width: 3px;
+			height: 3px;
+		}
+
+		.QRcode .xxs b,
+		.QRcode .xxs i {
+			width: 2px;
+			height: 2px;
+		}
+
+		.QRcode i {
+			background: #FFF;
+		}
+		#app label{
+			margin-right: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<p>
+			<label for="typeNumber">
+				typeNumber:
+				<select name="typeNumber" id="typeNumber" v-model="typeNumber">
+					<option value="0">auto</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="21">21</option>
+					<option value="22">22</option>
+					<option value="23">23</option>
+					<option value="24">24</option>
+					<option value="25">25</option>
+					<option value="26">26</option>
+					<option value="27">27</option>
+					<option value="28">28</option>
+					<option value="29">29</option>
+					<option value="30">30</option>
+					<option value="31">31</option>
+					<option value="32">32</option>
+					<option value="33">33</option>
+					<option value="34">34</option>
+					<option value="35">35</option>
+					<option value="36">36</option>
+					<option value="37">37</option>
+					<option value="38">38</option>
+					<option value="39">39</option>
+					<option value="40">40</option>
+				</select>
+			</label>
+
+			<label for="errorCorrectionLevel">
+				ErrorCorrectionLevel:
+				<select name="errorCorrectionLevel" id="errorCorrectionLevel" v-model="errorCorrectionLevel">
+					<option value="L">L(7%)</option>
+					<option value="M">M(15%)</option>
+					<option value="Q">Q(25%)</option>
+					<option value="H">H(30%)</option>
+				</select>
+			</label>
+
+			<label for="mode">
+				Mode:
+				<select name="mode" id="mode" v-model="mode">
+					<option v-for="(item,key) in Modes">{{key}}</option>
+				</select>
+			</label>
+
+			<!-- <label for="multibyte">
+				Multibyte:
+				<select name="multibyte" id="multibyte" v-model="multibyte"></select>
+			</label> -->
+
+		</p>
+		<p><textarea name="input" id="input" cols="50" rows="10" v-model.lazy="input"></textarea></p>
+		<p><button v-on:click="getQRCode">updated</button></p>
+		<div ref="outBox" class="QRcode" id="outBox"></div>
+	</div>
+	<script src="./index.js"></script>
+</body>
+</html>
