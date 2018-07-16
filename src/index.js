@@ -28,7 +28,7 @@ module.exports = function(QRModes,defOptions){
 		for (var k in defOptions) {
 			_options[k] = options[k] == undefined ? defOptions[k] : options[k];
 		}
-
+		
 		return (function () {
 			var _typeNumber = _options.typeNumber,
 				_maskPattern = _options.maskPattern,
@@ -155,6 +155,41 @@ module.exports = function(QRModes,defOptions){
 				var map = makeImpl(false, _maskPattern);
 				return map;
 			}
+			
+			var splitMake = function(){
+				var obj = {}
+				obj.all = make();
+				obj.allDiscover = utils.copyMap(cache['basemap_' + _typeNumber]),
+				
+				//positionProbe
+				obj.positionProbe = utils.mapInit(_moduleCount),
+				utils.setupAllPositionProbePattern(obj.positionProbe);
+
+				//positionAdjust 
+				var positionAdjust = utils.copyMap(obj.positionProbe)
+				utils.setupPositionAdjustPattern(positionAdjust);
+				obj.positionAdjust = utils.compareMap(obj.positionProbe,positionAdjust,'xor')
+
+				//timing
+				var timing = utils.mapInit(_moduleCount);
+				utils.setupTimingPattern(timing);
+				obj.timing = utils.compareMap(obj.positionAdjust,timing,"and")
+				obj.timing = utils.compareMap(obj.timing,timing,"xor")
+				
+				
+				//data
+				obj.data = utils.compareMap(obj.all,obj.allDiscover,'xor');
+
+				// console.log(obj.all);
+				// console.log(obj.allDiscover);
+				// console.log(obj.positionProbe);
+				// console.log(obj.positionAdjust);
+				// console.log(obj.timing)
+				// console.log(obj.data)
+
+
+				return obj;
+			}
 
 			var setData = function(data,mode){
 				_dataList = [];
@@ -170,6 +205,7 @@ module.exports = function(QRModes,defOptions){
 			_this.setData = setData
 			_this.addData = addData;
 			_this.make = make;
+			_this.splitMake = splitMake;
 
 			return _this;
 		})();

@@ -6,7 +6,7 @@ var qrNumber = function () {
 		for (var i = 0; i < s.length; i++) {
 			var c = s.charAt(i);
 			if (c < '0' || c > '9') {
-				throw new Error('illegal char :' + c);
+				throw 'illegal char :' + c;
 			}
 		}
 		return +s;

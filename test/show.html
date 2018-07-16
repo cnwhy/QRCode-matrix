@@ -53,6 +53,9 @@
 		.QRcode i {
 			background: #FFF;
 		}
+		.QRcode i.w {
+			background: #CCC;
+		}
 
 		button {
 			font-size: 30px;
@@ -133,25 +136,10 @@
 		<textarea rows="5" cols="100" id="arr"></textarea>
 		<button onclick="show()">show</button>
 		<button onclick="add()">add</button>
-		<script>
+		<!-- <script>
 			var box = document.getElementById('QRcode');
 			var indata = document.getElementById('arr');
-			function gethtml(data) {
-				var x = data.length / 50 >> 0;
-				var c = x ? "s" : "";
-				c = c.padStart(Math.min(x, 3), "x");
-				var html = '<div class="' + c + '">';
-				for (let i = 0; i < data.length; i++) {
-					var tr = data[i];
-					for (let k = 0; k < tr.length; k++) {
-						td = tr[k];
-						html += td ? '<b></b>' : '<i></i>';
-					}
-					html += '<br>';
-				}
-				html += '</div>';
-				return html;
-			}
+			
 			function show() {
 				var data = JSON.parse(indata.value);
 				box.innerHTML = gethtml(data);
@@ -160,29 +148,12 @@
 				var data = JSON.parse(indata.value);
 				box.innerHTML += gethtml(data);
 			}
-		</script>
+		</script> -->
+		<div id="Box" class="QRcode" style="min-height:200px;">
+		</div>
 	</div>
 
-	<div>
-		<img src="./method-draw-image.svg" alt="" srcset="" width="300" style="border:1px solid #DDD;">
-		<svg  width="580" height="400" style="border:1px solid #DDD; width:300px;" xmlns="http://www.w3.org/2000/svg">
-			<g>
-				<title>background</title>
-				<rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1" />
-				<g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
-					<rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" />
-				</g>
-			</g>
-			<g>
-				<title>Layer 1</title>
-				<rect id="svg_4" height="38" width="25" y="50" x="220.5" stroke-width="1.5" stroke="#000" fill="#fff" />
-				<rect id="svg_5" height="37" width="39" y="17" x="75.5" stroke-width="1.5" stroke="#000" fill="#fff" />
-				<rect id="svg_6" height="15" width="16" y="22" x="162.5" stroke-width="1.5" stroke="#000" fill="#fff" />
-				<rect id="svg_7" height="29" width="25" y="81" x="29.5" stroke-width="1.5" stroke="#000" fill="#fff" />
-				<rect id="svg_8" height="43" width="38" y="69" x="152.5" stroke-width="1.5" stroke="#000" fill="#fff" />
-			</g>
-		</svg>
-	</div>
+	
 
 </body>
 

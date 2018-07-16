@@ -8,7 +8,58 @@ $(function(){
 
 	var getTN = function(){return +tn.val()};
 	var getECL = function(){return +ecl.val()}
-	
+	function gethtml(data) {
+		var x = data.length / 50 >> 0;
+		var c = x ? "s" : "";
+		c = c.padStart(Math.min(x, 3), "x");
+		var html = '<div class="' + c + '">';
+		for (let i = 0; i < data.length; i++) {
+			var tr = data[i];
+			for (let k = 0; k < tr.length; k++) {
+				td = tr[k];
+				html += td ? '<b></b>' : td === false ? '<i class="w"></i>' :'<i></i>';
+			}
+			html += '<br>';
+		}
+		html += '</div>';
+		return html;
+	}
+
+	//svg
+	function getSVG(data) {
+		var size = 10;
+		function makeSVG(tag, attrs) {
+			var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+			for (var k in attrs)
+				if (attrs.hasOwnProperty(k)) el.setAttribute(k, attrs[k]);
+			return el;
+		}
+
+		var isDark = function(x,y){
+			return data[x][y];
+		};
+
+		var nCount = data.length;
+		var svg = makeSVG("svg", { 'viewBox': '0 0 ' + (nCount * size) + " " + (nCount * size), 'width': '100%', 'height': '100%', 'fill': "#FFFFFF" });
+		svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
+		//_el.appendChild(svg);
+
+		svg.appendChild(makeSVG("rect", { "fill": "#FFFFFF", "width": "100%", "height": "100%" }));
+		svg.appendChild(makeSVG("rect", { "fill": "#000000", "width": size, "height": size, "id": "template" }));
+
+		for (var row = 0; row < nCount; row++) {
+			for (var col = 0; col < nCount; col++) {
+				if (isDark(row, col)) {
+					var child = makeSVG("use", { "x": col * size, "y": row * size });
+					child.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#template")
+					svg.appendChild(child);
+				}
+			}
+		}
+		return svg;
+	}
+
+
 	function showArr(){
 		testBox.html(gethtml(testArr))
 	}
@@ -46,6 +97,24 @@ $(function(){
 	var op = {
 		errorCorrectionLevel:QR.QRErrorCorrectionLevel.H,
 		typeNumber:7
+	}
+	var box = $('#Box');
+	var indata = $('#arr');
+	window.show = function(){
+		var T1 = Date.now(),T2;
+		var qr = QR({typeNumber:20});
+		qr.setData(indata.val());
+		qr.make();
+		T2 = Date.now(),console.log(T2 - T1),T1=Date.now();
+		var all = qr.splitMake();
+		T2 = Date.now(),console.log(T2 - T1),T1=Date.now();
+
+		box.append(gethtml(all.all));
+		box.append(gethtml(all.allDiscover));
+		box.append(gethtml(all.positionProbe));
+		box.append(gethtml(all.positionAdjust));
+		box.append(gethtml(all.timing));
+		box.append(gethtml(all.data));
 	}
 
 })
