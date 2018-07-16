@@ -1,27 +1,27 @@
 {
-  "name": "qrcode.js",
-  "version": "1.0.0",
-  "description": "",
+  "name": "qrcode-matrix",
+  "version": "0.1.0",
+  "description": "QRCode matrix generator",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "parcel ./test/show.html",
-    "demo": "parcel ./demo/index.html",
-    "build": "rimraf distdemo/ && babel ./demo --out-dir distdemo/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && node distdemo/nodeTest.js"
+    "test": "parcel ./test/show.html"
   },
-  "author": "",
+  "author": {
+    "name": "cnwhy",
+    "email": "w.why@163.com"
+  },
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cnwhy/QRCode.git"
+  },
   "dependencies": {
     "gbk.js": "^0.2.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "parcel": "^1.8.1",
-    "pngjs": "^3.3.3",
-    "rimraf": "^2.6.2"
+    "parcel": "^1.8.1"
   }
 }
