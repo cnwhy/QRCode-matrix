@@ -102,19 +102,18 @@ $(function(){
 	var indata = $('#arr');
 	window.show = function(){
 		var T1 = Date.now(),T2;
-		var qr = QR({typeNumber:20});
+		var qr = QR({typeNumber:7});
 		qr.setData(indata.val());
 		qr.make();
 		T2 = Date.now(),console.log(T2 - T1),T1=Date.now();
 		var all = qr.splitMake();
 		T2 = Date.now(),console.log(T2 - T1),T1=Date.now();
-
-		box.append(gethtml(all.all));
-		box.append(gethtml(all.allDiscover));
-		box.append(gethtml(all.positionProbe));
-		box.append(gethtml(all.positionAdjust));
-		box.append(gethtml(all.timing));
-		box.append(gethtml(all.data));
+		box.append($('<div class="showinit"></div>').append(gethtml(all.all)).append('<div class="showText">all</div>'));
+		box.append($('<div class="showinit"></div>').append(gethtml(all.data)).append('<div class="showText">data</div>'));
+		box.append($('<div class="showinit"></div>').append(gethtml(all.allDiscover)).append('<div class="showText">allDiscover</div>'));
+		box.append($('<div class="showinit"></div>').append(gethtml(all.positionProbe)).append('<div class="showText">positionProbe</div>'));
+		box.append($('<div class="showinit"></div>').append(gethtml(all.positionAdjust)).append('<div class="showText">positionAdjust</div>'));
+		box.append($('<div class="showinit"></div>').append(gethtml(all.timing)).append('<div class="showText">timing</div>'));
 	}
 
 })

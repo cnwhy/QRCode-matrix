@@ -61,6 +61,10 @@
 			font-size: 30px;
 			vertical-align: top;
 		}
+
+		.QRcode .showinit {border: none;}
+		.QRcode .showinit>div {border: 1px solid #999;}
+		.QRcode .showinit .showText {font-size: 18px; text-align: center; line-height:2; border: 0 none;}
 	</style>
 </head>
 
@@ -70,8 +74,8 @@
 
 
 	<div>
-		<textarea rows="5" cols="100" id="qrdata"></textarea>
-		<br>
+		<!-- <textarea rows="5" cols="100" id="qrdata"></textarea> -->
+		<!-- <br> -->
 		<select id="typeNumber">
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -79,7 +83,7 @@
 			<option value="4">4</option>
 			<option value="5">5</option>
 			<option value="6">6</option>
-			<option value="7">7</option>
+			<option value="7" selected>7</option>
 			<option value="8">8</option>
 			<option value="9">9</option>
 			<option value="10">10</option>
@@ -133,7 +137,8 @@
 	</div>
 
 	<div>
-		<textarea rows="5" cols="100" id="arr"></textarea>
+		<!-- <textarea rows="5" cols="100" id="arr"></textarea> -->
+		<input type="text" id="arr">
 		<button onclick="show()">show</button>
 		<button onclick="add()">add</button>
 		<!-- <script>
