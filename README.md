@@ -47,6 +47,7 @@ return qucode.make();
  - `positionProbe` : 定位图数据
  - `positionAdjust` : 矫正图数据
  - `timing` : 定位图
+![splitMake](https://github.com/cnwhy/QRCode/blob/master/test/splitMake.png?raw=true)
 
 大至关系如下:
 ```js
