@@ -102,7 +102,7 @@ $(function(){
 	var indata = $('#arr');
 	window.show = function(){
 		var T1 = Date.now(),T2;
-		var qr = QR({typeNumber:7});
+		var qr = QR({minTypeNumber:3});
 		qr.setData(indata.val());
 		qr.make();
 		T2 = Date.now(),console.log(T2 - T1),T1=Date.now();

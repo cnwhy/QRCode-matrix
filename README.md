@@ -5,12 +5,16 @@
 特点:  
 `splitMake` 方法, 会返回二维码不同功能的点阵信息二维数组.
 
+## 相关网站
+[二维码美化](http://www.whyoop.com/tool-qr)
+
 ## demo
 ```js
 var QRCode = require('qrcode.js');
 var qrcode = QRCode({
 	errorCorrectionLevel: "M", //纠错等级 默认M   'L','M','Q','H' -> [1,0,3,2]
 	typeNumber: 0,             //QR码版本 默认0 (自动)  1 to 40
+	minTypeNumber: 0,          //最小typeNumber版本,当typeNumber自动时生效
 	maskPattern: 'auto',       //掩模 'random','auto'  [0-7]
 	dataMode: 'Byte'           //默认数据类型 结合 QRModes 参数
 })

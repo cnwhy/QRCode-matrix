@@ -2,9 +2,9 @@ var utils = require('./utils');
 var QRErrorCorrectionLevel = utils.QRErrorCorrectionLevel;
 var cache = {}; //缓存 
 
-module.exports = function(QRModes,defOptions){
+module.exports = function (QRModes, defOptions) {
 	QRcode.QRModes = QRModes;
-	
+
 	// 纠错等级
 	// L: 1, 7%
 	// M: 0, 15%
@@ -18,26 +18,29 @@ module.exports = function(QRModes,defOptions){
 	 *	{
 	 *		errorCorrectionLevel: "M", //纠错等级 默认M   'L','M','Q','H' -> [1,0,3,2]
 	 *		typeNumber: 0,             //QR码版本 默认0 (自动)  1 to 40
+	 *		minTypeNumber: 0,          //最小版本
 	 *		maskPattern: 'auto',       //掩模 'random','auto'  [0-7]
 	 *		dataMode: 'Byte'           //默认 数据类型 结合 QRModes 参数
 	 *	}
 	*/
 	function QRcode(options) {
 		options = options || {};
-		var _options = {};
-		for (var k in defOptions) {
-			_options[k] = options[k] == undefined ? defOptions[k] : options[k];
-		}
-		
+		// var _options = {};
+		// for (var k in defOptions) {
+		// 	_options[k] = options[k] == undefined ? defOptions[k] : options[k];
+		// }
+		var _options = Object.assign({},defOptions,options);
+
 		return (function () {
 			var _typeNumber = _options.typeNumber,
+				_minTypeNumber = _options.minTypeNumber,
 				_maskPattern = _options.maskPattern,
 				_dataMode = _options.dataMode,
-				_errorCorrectionLevel = (function(){
+				_errorCorrectionLevel = (function () {
 					var l = _options.errorCorrectionLevel;
-					for(var k in QRErrorCorrectionLevel){
+					for (var k in QRErrorCorrectionLevel) {
 						var v = QRErrorCorrectionLevel[k]
-						if(l === k || +l === v){
+						if (l === k || +l === v) {
 							return v;
 						}
 					}
@@ -61,9 +64,9 @@ module.exports = function(QRModes,defOptions){
 					utils.setupPositionAdjustPattern(map);
 					//填充定位图
 					utils.setupTimingPattern(map);
-					
+
 					//做个缓存 只要版本相同 '探测图型','矫正位图','定位图' 是固定的
-					cache['basemap_' + _typeNumber] = utils.copyMap(map); 
+					cache['basemap_' + _typeNumber] = utils.copyMap(map);
 				}
 
 				//填充格式信息
@@ -88,9 +91,9 @@ module.exports = function(QRModes,defOptions){
 						throw 'mode invalid!'
 					}
 				} else {
-					if(QRModes[mode]){
+					if (QRModes[mode]) {
 						newData = QRModes[mode](data);
-					}else{
+					} else {
 						throw 'mode type invalid! mode is ' + mode;
 					}
 				}
@@ -101,10 +104,10 @@ module.exports = function(QRModes,defOptions){
 			var make = function () {
 				// 如果未指定TypeNumber，则记算适合的TypeNumber
 				if (_typeNumber < 1) {
-					var typeNumber = 1;
+					var typeNumber = _minTypeNumber ? _minTypeNumber : 1;
 					for (; typeNumber < 40; typeNumber++) {
 						var rsBlocks = utils.getRSBlocks(typeNumber, _errorCorrectionLevel);
-						
+
 						var buffer = utils.qrBitBuffer();
 						for (var i = 0; i < _dataList.length; i++) {
 							var data = _dataList[i];
@@ -128,14 +131,14 @@ module.exports = function(QRModes,defOptions){
 				_moduleCount = _typeNumber * 4 + 17;
 
 				// 掩模
-				
+
 				// 随机
-				if (_maskPattern === 'random') { 
+				if (_maskPattern === 'random') {
 					_maskPattern = ~~(Math.random() * (7 + 1));
-				// 指定方案
+					// 指定方案
 				} else if (0 <= _maskPattern && _maskPattern <= 7) {
 					_maskPattern = _maskPattern >> 0;
-				// 自动筛选最优掩模
+					// 自动筛选最优掩模
 				} else { //auto
 					_maskPattern = (function () {
 						var minLostPoint = 0;
@@ -155,30 +158,30 @@ module.exports = function(QRModes,defOptions){
 				var map = makeImpl(false, _maskPattern);
 				return map;
 			}
-			
-			var splitMake = function(){
+
+			var splitMake = function () {
 				var obj = {}
 				obj.all = make();
 				obj.allDiscover = utils.copyMap(cache['basemap_' + _typeNumber]),
-				
-				//positionProbe
-				obj.positionProbe = utils.mapInit(_moduleCount),
-				utils.setupAllPositionProbePattern(obj.positionProbe);
+
+					//positionProbe
+					obj.positionProbe = utils.mapInit(_moduleCount),
+					utils.setupAllPositionProbePattern(obj.positionProbe);
 
 				//positionAdjust 
 				var positionAdjust = utils.copyMap(obj.positionProbe)
 				utils.setupPositionAdjustPattern(positionAdjust);
-				obj.positionAdjust = utils.compareMap(obj.positionProbe,positionAdjust,'xor')
+				obj.positionAdjust = utils.compareMap(obj.positionProbe, positionAdjust, 'xor')
 
 				//timing
 				var timing = utils.mapInit(_moduleCount);
 				utils.setupTimingPattern(timing);
-				obj.timing = utils.compareMap(obj.positionAdjust,timing,"and")
-				obj.timing = utils.compareMap(obj.timing,timing,"xor")
-				
-				
+				obj.timing = utils.compareMap(obj.positionAdjust, timing, "and")
+				obj.timing = utils.compareMap(obj.timing, timing, "xor")
+
+
 				//data
-				obj.data = utils.compareMap(obj.all,obj.allDiscover,'xor');
+				obj.data = utils.compareMap(obj.all, obj.allDiscover, 'xor');
 
 				// console.log(obj.all);
 				// console.log(obj.allDiscover);
@@ -191,13 +194,13 @@ module.exports = function(QRModes,defOptions){
 				return obj;
 			}
 
-			var setData = function(data,mode){
+			var setData = function (data, mode) {
 				_dataList = [];
-				addData(data,mode);
+				addData(data, mode);
 			}
 
-			var _this = function (str,mode) {
-				setData(str,mode);
+			var _this = function (str, mode) {
+				setData(str, mode);
 				return make();
 			};
 
@@ -210,6 +213,6 @@ module.exports = function(QRModes,defOptions){
 			return _this;
 		})();
 	}
-	
+
 	return QRcode;
 }

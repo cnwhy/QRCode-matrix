@@ -1,27 +1,43 @@
 {
   "name": "qrcode-matrix",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "QRCode matrix generator",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "files": [
+    "src/*",
+    "dist/*",
+    "index.js",
+    "onlyUTF8.js"
+  ],
+  "homepage": "https://github.com/cnwhy/QRCode-matrix",
   "scripts": {
-    "test": "parcel ./test/show.html"
+    "test": "parcel ./test/show.html",
+    "build": "gulp"
   },
   "author": {
     "name": "cnwhy",
     "email": "w.why@163.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/cnwhy/QRCode.git"
   },
   "dependencies": {
-    "gbk.js": "^0.2.2"
+    "gbk.js": "^0.2.3"
   },
   "devDependencies": {
-    "parcel": "^1.8.1"
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-header": "^2.0.5",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-uglify": "^3.0.1",
+    "parcel": "^1.8.1",
+    "rollup": "^0.63.4",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-commonjs": "^9.1.4",
+    "rollup-plugin-json": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.3.0"
   }
 }

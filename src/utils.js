@@ -1093,7 +1093,7 @@ var mapData = function (map, data, maskPattern) {
 };
 
 module.exports = {
-	// QRMode: QRMode,
+	QRMode: QRMode,
 	QRErrorCorrectionLevel: QRErrorCorrectionLevel,
 	QRMaskPattern: QRMaskPattern,
 	qrBitBuffer: qrBitBuffer,
