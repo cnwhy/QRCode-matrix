@@ -11,12 +11,15 @@ var json = require("rollup-plugin-json");
 var resolve = require("rollup-plugin-node-resolve");
 
 var package = require("./package.json");
-var banner =
-	'/*!\n' +
-	' * ' + package.name + ' v' + package.version + '\n' +
-	' * Homepage ' + package.homepage + '\n' +
-	' * License ' + package.license + '\n' +
-	' */\n'
+var banner =`
+/*!
+ * ${package.name} v${package.version}
+ * (c) 2018-present ${package.author.name} <${package.author.email}>
+ * Homepage ${package.homepage}
+ * Released under the License ${package.license}
+ */
+`
+
 
 var outputDir = 'dist/'
 

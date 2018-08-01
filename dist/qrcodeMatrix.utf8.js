@@ -1,7 +1,9 @@
+
 /*!
  * qrcode-matrix v0.1.1
+ * (c) 2018-present cnwhy <w.why@163.com>
  * Homepage https://github.com/cnwhy/QRCode-matrix
- * License MIT
+ * Released under the License MIT
  */
 
 (function (global, factory) {
