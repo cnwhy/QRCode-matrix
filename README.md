@@ -21,7 +21,7 @@ var qrcode = QRCode({
 qrcode.setData('1234');
 var date = qrcode.make(); // 一个布尔值的二维数组
 date.forEach(function(v,i){
-	console.log(v.map(function(item){return item?'☐':'◼︎'}).join(' '))
+	console.log(v.map(function(item){return item?'☐':'◼︎'}).join('\n'))
 })
 /*
 ☐ ☐ ☐ ☐ ☐ ☐ ☐ ◼︎ ◼︎ ☐ ◼︎ ☐ ◼︎ ◼︎ ☐ ☐ ☐ ☐ ☐ ☐ ☐
@@ -80,9 +80,9 @@ console.log(Object.keys(QRCode_utf8.QRModes));
 
 ### qrcode.addData(data,mode) //添加数据 可以多次添加
 
-### qucode.setData(data,mode) //重新添加数据 会移出之前的数据
+### qucode.setData(data,mode) //重新添加数据 会移除之前的数据
 
-### qucode.make() //根据添加的数生成QR码的二维数组
+### qucode.make() //根据添加的数据生成QR码的二维数组
 
 ### qucode(data,mode) //一个语法糖
 ```js
