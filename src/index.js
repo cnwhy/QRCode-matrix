@@ -44,6 +44,7 @@ module.exports = function (QRModes, defOptions) {
 							return v;
 						}
 					}
+					return QRErrorCorrectionLevel.M;
 				})();
 
 			var _moduleCount = 0,
