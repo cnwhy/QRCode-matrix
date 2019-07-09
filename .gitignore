@@ -61,3 +61,6 @@ typings/
 .vscode
 temp
 .rpt2_cache
+
+lib
+dist

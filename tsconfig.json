@@ -59,7 +59,8 @@
   },
   "exclude": [
     "node_modules",
-    "temp/test",
+    "test",
+    "temp",
     "**/*.d.ts",
     "**/*.spec.ts"
   ]

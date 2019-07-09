@@ -1,16 +1,24 @@
 import typescript from 'rollup-plugin-typescript';
 import nodeResolve from 'rollup-plugin-node-resolve';
+import { uglify } from 'rollup-plugin-uglify';
+
 // import commonjs from 'rollup-plugin-commonjs';
 // import es3 from 'rollup-plugin-es3'
 import pkg from './package.json';
 
 const name = "qrcodeMatrix"
-let banner = `/*!
+const banner = `/*!
  * ${pkg.name}  v${pkg.version}
  * Homepage ${pkg.homepage}
  * License ${pkg.license}
  */
 `;
+let minOpts = {
+	output: {
+		preamble: banner
+	}
+};
+
 let external = Object.keys(pkg.dependencies);
 let plugins_typeES2015 = typescript({
 	target: 'ES2015',
@@ -47,33 +55,21 @@ let out_config = [
 				exports: 'named'
 			}
 		]
-	}
+	},
+	// {
+	// 	input: pkg.module,
+	// 	plugins: [
+	// 		uglify(minOpts),
+	// 	],
+	// 	output: [
+	// 		{
+	// 			file: pkg.browser.replace(/\.js$/, '.min.js'),
+	// 			name: name,
+	// 			format: 'umd',
+	// 			exports: 'named'
+	// 		}
+	// 	]
+	// }
 ];
-
-// let out_AllMatrix = [
-// 	{
-// 		input: './src/index.ts',
-// 		plugins: [plugins_typeES2015],
-// 		output: [
-// 			{
-// 				file: './lib/index.es.js',
-// 				format: 'es',
-// 				banner: banner
-// 			}
-// 		],
-// 		external
-// 	},
-// 	{
-// 		input: './lib/index.es.js',
-// 		plugins: [nodeResolve()],
-// 		output: [
-// 			{
-// 				file: './lib/index.js',
-// 				name: 'AllMatrix',
-// 				format: 'umd'
-// 			}
-// 		]
-// 	}
-// ];
 
 export default [...out_config];

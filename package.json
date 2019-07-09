@@ -17,8 +17,7 @@
     "clean": "rimraf lib dist",
     "precompile": "npm run clean",
     "compile": "npx tsc && rollup -c",
-    "test": "parcel ./test/show.html",
-    "prepack": "npm run test && npm run compile"
+    "prepack": "npm run compile"
   },
   "author": {
     "name": "cnwhy",
@@ -39,6 +38,7 @@
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-uglify": "^6.0.2",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   }
