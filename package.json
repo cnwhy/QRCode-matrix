@@ -1,8 +1,11 @@
 {
   "name": "qrcode-matrix",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "QRCode matrix generator",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "browser": "dist/qrcodeMatrix.umd.js",
+  "module": "dist/qrcodeMatrix.es.js",
+  "types": "lib/index.d.ts",
   "files": [
     "src/*",
     "dist/*",
@@ -11,8 +14,11 @@
   ],
   "homepage": "https://github.com/cnwhy/QRCode-matrix",
   "scripts": {
+    "clean": "rimraf lib dist",
+    "precompile": "npm run clean",
+    "compile": "npx tsc && rollup -c",
     "test": "parcel ./test/show.html",
-    "build": "gulp"
+    "prepack": "npm run test && npm run compile"
   },
   "author": {
     "name": "cnwhy",
@@ -24,20 +30,16 @@
     "url": "https://github.com/cnwhy/QRCode.git"
   },
   "dependencies": {
-    "gbk.js": "^0.2.3"
+    "bitmatrix": "^0.5.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.4.0",
-    "gulp-header": "^2.0.5",
-    "gulp-rename": "^1.4.0",
-    "gulp-replace": "^1.0.0",
-    "gulp-uglify": "^3.0.1",
-    "parcel": "^1.8.1",
-    "rollup": "^0.63.4",
-    "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-commonjs": "^9.1.4",
-    "rollup-plugin-json": "^3.0.0",
-    "rollup-plugin-node-resolve": "^3.3.0"
+    "rimraf": "^2.6.3",
+    "rollup": "^1.16.7",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   }
 }
