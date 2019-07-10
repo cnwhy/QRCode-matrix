@@ -1,6 +1,6 @@
 {
   "name": "qrcode-matrix",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "QRCode matrix generator",
   "main": "lib/index.js",
   "browser": "dist/qrcodeMatrix.umd.js",
@@ -9,8 +9,7 @@
   "files": [
     "src/*",
     "dist/*",
-    "index.js",
-    "onlyUTF8.js"
+    "lib/*"
   ],
   "homepage": "https://github.com/cnwhy/QRCode-matrix",
   "scripts": {
