@@ -2,7 +2,7 @@
   "name": "qrcode-matrix",
   "version": "0.2.1",
   "description": "QRCode matrix generator",
-  "main": "lib/index.js",
+  "main": "dist/qrcodeMatrix.js",
   "browser": "dist/qrcodeMatrix.umd.js",
   "module": "dist/qrcodeMatrix.es.js",
   "types": "lib/index.d.ts",

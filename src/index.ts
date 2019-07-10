@@ -24,7 +24,10 @@ let defOptions = {
 	maskPattern: 'auto',
 	dataMode: 'Byte'
 };
-export {utils};
-export default qrcode(QRModes, defOptions);
+
+const QRcode = qrcode(QRModes, defOptions)
+
+export {utils,QRcode};
+export default QRcode;
 
 // module.exports = require('./src/index')(QRModes,defOptions);
