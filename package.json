@@ -1,13 +1,12 @@
 {
   "name": "qrcode-matrix",
-  "version": "0.2.1",
+  "version": "1.0.0-beta.0",
   "description": "QRCode matrix generator",
-  "main": "dist/qrcodeMatrix.js",
+  "main": "lib/qrcodeMatrix.js",
   "browser": "dist/qrcodeMatrix.umd.js",
-  "module": "dist/qrcodeMatrix.es.js",
+  "module": "lib/qrcodeMatrix.es.js",
   "types": "lib/index.d.ts",
   "files": [
-    "src/*",
     "dist/*",
     "lib/*"
   ],
@@ -15,7 +14,7 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "precompile": "npm run clean",
-    "compile": "npx tsc && rollup -c",
+    "compile": "rollup -c",
     "prepack": "npm run compile"
   },
   "author": {
@@ -32,13 +31,13 @@
   },
   "devDependencies": {
     "rimraf": "^2.6.3",
-    "rollup": "^1.16.7",
+    "rollup": "^1.32.1",
     "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-typescript2": "^0.31.2",
     "rollup-plugin-uglify": "^6.0.2",
     "ts-node": "^8.3.0",
+    "tslib": "^2.3.1",
     "typescript": "^3.5.3"
   }
 }
