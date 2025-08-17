@@ -17,9 +17,9 @@ class QRMatrix extends BitMatrix{
 	// 	return this.width;
 	// }
 	set(x:number,y:number,value){
-		super.set(x,y,value);
+		super.set(x,y,!!value);
 		// this.dataMatrix.set(x,y,value);
-		this.markMatrix.set(x,y,1);
+		if(value!=undefined) this.markMatrix.set(x,y,1);
 	}
 	has(x:number,y:number){
 		return !!this.markMatrix.get(x,y);

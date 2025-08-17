@@ -15,6 +15,7 @@
     "clean": "rimraf lib dist",
     "precompile": "npm run clean",
     "compile": "rollup -c",
+    "build": "npm run compile",
     "prepack": "npm run compile"
   },
   "author": {

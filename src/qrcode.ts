@@ -152,7 +152,7 @@ function Class(QRModes: any, defOptions: Class.qrcodeOptions): (x) => Class.QRco
 				if (_maskPattern === 'random') {
 					_maskPattern = ~~(Math.random() * (7 + 1));
 					// 指定方案
-				} else if (0 <= _maskPattern && _maskPattern <= 7) {
+				} else if (typeof _maskPattern === 'number' && 0 <= _maskPattern && _maskPattern <= 7) {
 					_maskPattern = Number(_maskPattern) >> 0;
 					// 自动筛选最优掩模
 				} else {
