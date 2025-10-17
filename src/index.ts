@@ -1,4 +1,4 @@
-export {default as QRMatrix} from './lib/QRMatrix';
+export { default as QRMatrix } from './lib/QRMatrix';
 import Numeric from './modes/Numeric';
 import Alphanumeric from './modes/Alphanumeric';
 import Byte from './modes/Byte';
@@ -26,7 +26,7 @@ let defOptions = {
 };
 
 const QRcode = qrcode(QRModes, defOptions)
-export {utils,QRcode,QRModes};
+export { utils, QRcode, QRModes };
 export default QRcode;
 
 // module.exports = require('./src/index')(QRModes,defOptions);

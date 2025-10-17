@@ -237,6 +237,7 @@ const MatrixCache:QRMatrix[] = [];
 function createQRmatrix(typeNumber:number):QRMatrix{
 	let size = typeNumber2Size(typeNumber);
 	let matrix = mapInit(size);
+	// 填充所有侦测图
 	setupAllPositionProbePattern(matrix);
 	//填充矫正位图
 	setupPositionAdjustPattern(matrix);
@@ -257,8 +258,7 @@ function copyMap(matrix: QRMatrix): QRMatrix {
 }
 
 //矩阵对比操作
-function compareMap(m1: QRMatrix, m2: QRMatrix, type: string): QRMatrix {
-	type = type || 'and';
+function compareMap(m1: QRMatrix, m2: QRMatrix, type: string = 'and'): QRMatrix {
 	if (m1.total !== m2.total) throw 'Different size';
 	let matrix = new QRMatrix(m1.size);
 
