@@ -1,6 +1,6 @@
 {
   "name": "qrcode-matrix",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.4",
   "description": "QRCode matrix generator",
   "main": "lib/qrcodeMatrix.js",
   "browser": "dist/qrcodeMatrix.umd.js",
@@ -16,7 +16,8 @@
     "precompile": "npm run clean",
     "compile": "rollup -c",
     "build": "npm run compile",
-    "prepack": "npm run compile"
+    "prepack": "npm run compile",
+    "test": "tsx test/index.ts"
   },
   "author": {
     "name": "cnwhy",
@@ -37,8 +38,8 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-typescript2": "^0.31.2",
     "rollup-plugin-uglify": "^6.0.2",
-    "ts-node": "^8.3.0",
     "tslib": "^2.3.1",
+    "tsx": "^4.20.6",
     "typescript": "^3.5.3"
   }
 }
