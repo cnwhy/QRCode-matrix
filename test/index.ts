@@ -7,9 +7,10 @@ var qrcode = QRCode({
 	dataMode: 'Byte' //默认数据类型, 参看 QRCode.QRModes 对像
 });
 qrcode.setData('1234');
-// var matrix = qrcode.make(); // 一个布尔值的二维数组
+var matrix = qrcode.make(); // 一个布尔值的二维数组
 
 var splitMake = qrcode.splitMake()
+
 // console.log(splitMake);
 var attr = [
 	`all`,
@@ -42,3 +43,5 @@ attr.map(att=>{
 	console.log(att);
 	splitMake[att] && showV(splitMake[att]);
 })
+console.log('make');
+showV(matrix);

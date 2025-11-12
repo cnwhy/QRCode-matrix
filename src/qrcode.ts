@@ -1,5 +1,4 @@
 import * as utils from './utils';
-import BitMatrix from 'bitmatrix';
 import QRMatrix from './lib/QRMatrix';
 // var utils = require('./utils');
 // var QRErrorCorrectionLevel = utils.QRErrorCorrectionLevel;
@@ -12,9 +11,9 @@ namespace Class {
 		dataMode: string | object;
 	}
 	export interface QRcom {
-		(data, mode): BitMatrix;
+		(data, mode?): QRMatrix;
 		splitMake(): any;
-		make(): BitMatrix;
+		make(): QRMatrix;
 		addData(data, mode?);
 		setData(data, mode?);
 	}
