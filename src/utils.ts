@@ -70,7 +70,16 @@ const PATTERN_POSITION_TABLE: Uint8Array[] = [
 	[6, 30, 58, 86, 114, 142, 170]
 ].map(v => new Uint8Array(v));
 
-// 获取掩模函数
+// 拷贝矩阵
+function copyMap(matrix: QRMatrix): QRMatrix {
+	return matrix.clone();
+}
+
+/**
+ * 获取掩模函数
+ * @param maskPattern 
+ * @returns 
+ */
 const getQRMaskFunction: (a: number) => (a: number, b: number) => boolean = (function() {
 	const QRMaskFunctions: ((a: number, b: number) => boolean)[] = [
 		function(i: number, j: number) {
@@ -105,25 +114,41 @@ const getQRMaskFunction: (a: number) => (a: number, b: number) => boolean = (fun
 	};
 })();
 
-// 通过size反推QR码版本
+/**
+ * 通过size反推QR码版本
+ * @param size 
+ * @returns 
+ */
 function size2TypeNumber(size: number) {
 	return (size - 17) / 4;
 }
 
-// 通过QR码版本计算矩阵size
+/**
+ * 通过QR码版本计算矩阵size
+ * @param typeNumber 
+ * @returns 
+ */
 function typeNumber2Size(typeNumber: number) {
 	return typeNumber * 4 + 17
 }
 
-// 在指定位置 绘制一个侦测图 ◈
-const setupPositionProbePattern = function(matrix: BitMatrix, row: number, col: number) {
-	rectBorder(matrix, 0, row - 1, col - 1, 9, 9);
-	rectBorder(matrix, 1, row, col, 7, 7);
-	rectBorder(matrix, 0, row + 1, col + 1, 5, 5);
-	fillRect(matrix, 1, row + 2, col + 2, 3, 3);
+/**
+ * 在指定位置 填充一个侦测图 ◈
+ * @param matrix 
+ * @param x 
+ * @param y 
+ */
+const setupPositionProbePattern = function(matrix: BitMatrix, x: number, y: number) {
+	rectBorder(matrix, 0, x - 1, y - 1, 9, 9); // 白色外框
+	rectBorder(matrix, 1, x, y, 7, 7);         // 眼框
+	rectBorder(matrix, 0, x + 1, y + 1, 5, 5); // 眼白
+	fillRect(matrix, 1, x + 2, y + 2, 3, 3);   // 眼球
 };
 
-// 填充所有侦测图 
+/**
+ * 填充侦测图
+ * @param matrix 
+ */
 const setupAllPositionProbePattern = function(matrix: QRMatrix) {
 	let size = matrix.size;
 	setupPositionProbePattern(matrix, 0, 0);
@@ -131,7 +156,11 @@ const setupAllPositionProbePattern = function(matrix: QRMatrix) {
 	setupPositionProbePattern(matrix, 0, size - 7);
 };
 
-// 填充校正图
+/**
+ * 填充校正图(回)
+ * @param matrix 
+ * @param typeNumber 
+ */
 const setupPositionAdjustPattern = function(matrix: QRMatrix, typeNumber?: number) {
 	let { size } = matrix;
 	typeNumber = typeNumber || size2TypeNumber(size);
@@ -160,7 +189,11 @@ const setupPositionAdjustPattern = function(matrix: QRMatrix, typeNumber?: numbe
 	}
 };
 
-// 填充定位图
+
+/**
+ * 填充定位图(...)
+ * @param matrix 
+ */
 const setupTimingPattern = function(matrix: BitMatrix) {
 	let mapLength = matrix.width;
 	for (let r = 8; r < mapLength - 8; r += 1) {
@@ -169,7 +202,13 @@ const setupTimingPattern = function(matrix: BitMatrix) {
 	}
 };
 
-// 填充格式信息
+/**
+ * 填充格式信息
+ * @param matrix 
+ * @param test 
+ * @param errorCorrectionLevel 
+ * @param maskPattern 
+ */
 const setupTypeInfo = function(
 	matrix: BitMatrix,
 	test: boolean,
@@ -215,7 +254,12 @@ const setupTypeInfo = function(
 	matrix.set(8, mapLength - 8, !test);
 };
 
-// 填充版本信息
+/**
+ * 填充版本信息
+ * @param matrix 
+ * @param test 
+ * @param typeNumber 
+ */
 var setupTypeNumber = function(matrix: BitMatrix, test: boolean, typeNumber?: number) {
 	let mapLength = matrix.width;
 	typeNumber = typeNumber || size2TypeNumber(mapLength);
@@ -228,12 +272,23 @@ var setupTypeNumber = function(matrix: BitMatrix, test: boolean, typeNumber?: nu
 	}
 };
 
-// 生成空矩阵
+/**
+ * 生成空矩阵
+ * @param size 
+ * @returns 
+ */
 function mapInit(size: number): QRMatrix {
 	return new QRMatrix(size);
 }
 
+// 缓存版本检测数据（固定不变）矩阵
 const MatrixCache:QRMatrix[] = [];
+
+/**
+ * 创建指定版本二维码检测数据矩阵
+ * @param typeNumber 
+ * @returns 
+ */
 function createQRmatrix(typeNumber:number):QRMatrix{
 	let size = typeNumber2Size(typeNumber);
 	let matrix = mapInit(size);
@@ -245,17 +300,18 @@ function createQRmatrix(typeNumber:number):QRMatrix{
 	setupTimingPattern(matrix);
 	return matrix;
 }
+
+/**
+ * 获取检测数据矩阵
+ * @param typeNumber 
+ * @returns 
+ */
 function getBaseQRMatrix(typeNumber:number):QRMatrix{
 	let matrix =  MatrixCache[typeNumber] || (MatrixCache[typeNumber] = createQRmatrix(typeNumber));
-	return matrix.clone();
+	return copyMap(matrix)
 }
 
 
-
-// 拷贝矩阵
-function copyMap(matrix: QRMatrix): QRMatrix {
-	return matrix.clone();
-}
 
 //矩阵对比操作
 function compareMap(m1: QRMatrix, m2: QRMatrix, type: string = 'and'): QRMatrix {
@@ -455,5 +511,7 @@ export {
 	getLostPoint,
 	getRSBlocks,
 	getBufferForModes,
-	getMaxDataCount
+	getMaxDataCount,
+	rectBorder,
+	fillRect
 };
