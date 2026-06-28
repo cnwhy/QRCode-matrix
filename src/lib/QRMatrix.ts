@@ -18,23 +18,34 @@ class QRMatrix extends BitMatrix {
 	// }
 	set(x: number, y: number, value) {
 		super.set(x, y, !!value);
-		// this.dataMatrix.set(x,y,value);
-		if (value != undefined) this.markMatrix.set(x, y, 1);
+		if (value != undefined) this.mark(x, y);
 	}
 	has(x: number, y: number) {
 		return !!this.markMatrix.get(x, y);
 	}
+	mark(x: number, y: number) {
+		this.markMatrix.set(x, y, 1);
+	}
+	unmark(x: number, y: number) {
+		this.markMatrix.set(x, y, 0);
+	}
 	setRow(row, values) {
 		super.setRow(row, values);
-		this.markMatrix.fillRow(row, 1);
+		const o1 = this.markMatrix.getRow(row);
+		const m1 = values.map((v, i) => (v === undefined ? o1[i] : 1));
+		this.markMatrix.setRow(row, m1);
 	}
 	fillRow(row, value) {
 		super.fillRow(row, value);
-		this.markMatrix.fillRow(row, 1);
+		if (value !== undefined) {
+			this.markMatrix.fillRow(row, 1);
+		}
 	}
 	fill(value) {
 		super.fill(value);
-		this.markMatrix.fill(1);
+		if (value !== undefined) {
+			this.markMatrix.fill(1);
+		}
 	}
 	clone(): QRMatrix {
 		return Object.create(this, {
