@@ -332,7 +332,7 @@ function compareMap(m1: QRMatrix, m2: QRMatrix, type: string = 'and'): QRMatrix 
 			case 'or':
 			case '|':
 				var mk = (_md[i] = _m1[i] | _m2[i]);
-				_md[i] = (_m1[i] | _m2[i]) & mk;
+				md[i] = (_d1[i] | _d2[i]) & mk;
 				break;
 			case 'xor':
 			case '^':
