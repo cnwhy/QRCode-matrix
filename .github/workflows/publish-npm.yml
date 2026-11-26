@@ -74,11 +74,12 @@ jobs:
 
       - name: Publish to npmjs.com
         run: |
-          # v1.2.3 -> latest, v1.2.3-beta.4 -> beta
+          # 按包版本推导 dist-tag: 1.2.3 -> latest, 1.2.3-beta.4 -> beta
+          pkg_version="$(tar -xzOf ./*.tgz package/package.json | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).version")"
           publish_tag="latest"
-          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
-            publish_tag="${GITHUB_REF_NAME#*-}"
+          if [[ "$pkg_version" == *-* ]]; then
+            publish_tag="${pkg_version#*-}"
             publish_tag="${publish_tag%%.*}"
           fi
-          echo "Publishing with dist-tag: $publish_tag"
+          echo "Publishing $pkg_version with dist-tag: $publish_tag"
           npm publish ./*.tgz --provenance --access public --tag "$publish_tag"
