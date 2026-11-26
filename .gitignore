@@ -61,7 +61,6 @@ typings/
 .vscode
 temp
 .rpt2_cache
-package-lock.json
 
 lib
 dist

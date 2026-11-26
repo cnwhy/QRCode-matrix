@@ -1,0 +1,84 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify package version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          tag_version="${GITHUB_REF_NAME#v}"
+          package_version="$(node -p "require('./package.json').version")"
+          if [ "$tag_version" != "$package_version" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $package_version"
+            exit 1
+          fi
+
+      - name: Build and test
+        run: npm run verify
+
+      - name: Pack tarball
+        run: |
+          mkdir -p dist-artifact
+          npm pack --pack-destination dist-artifact
+          echo "TARBALL=$(ls dist-artifact/*.tgz)" >> "$GITHUB_ENV"
+
+      - name: Upload tarball
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: dist-artifact/*.tgz
+          retention-days: 1
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # npm provenance / Trusted Publishing
+      contents: read
+
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: https://registry.npmjs.org
+
+      - name: Download tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: package
+          path: .
+
+      - name: Publish to npmjs.com
+        run: |
+          # v1.2.3 -> latest, v1.2.3-beta.4 -> beta
+          publish_tag="latest"
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
+            publish_tag="${GITHUB_REF_NAME#*-}"
+            publish_tag="${publish_tag%%.*}"
+          fi
+          echo "Publishing with dist-tag: $publish_tag"
+          npm publish ./*.tgz --provenance --access public --tag "$publish_tag"
